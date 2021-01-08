@@ -56,6 +56,7 @@ import (
 	"k8s.io/kubernetes/pkg/features"
 	"k8s.io/kubernetes/pkg/fieldpath"
 	"k8s.io/kubernetes/pkg/security/apparmor"
+	tolerationsmerge "k8s.io/kubernetes/pkg/util/tolerations/merge"
 	netutils "k8s.io/utils/net"
 )
 
@@ -3086,11 +3087,14 @@ func validateTaintEffect(effect *core.TaintEffect, allowEmpty bool, fldPath *fie
 
 // validateOnlyAddedTolerations validates updated pod tolerations.
 func validateOnlyAddedTolerations(newTolerations []core.Toleration, oldTolerations []core.Toleration, fldPath *field.Path) field.ErrorList {
+	mergedNewTolerations := tolerationsmerge.DoTolerationsMerge(newTolerations, nil)
+	mergedOldTolerations := tolerationsmerge.DoTolerationsMerge(oldTolerations, nil)
+
 	allErrs := field.ErrorList{}
-	for _, old := range oldTolerations {
+	for _, old := range mergedOldTolerations {
 		found := false
 		old.TolerationSeconds = nil
-		for _, new := range newTolerations {
+		for _, new := range mergedNewTolerations {
 			new.TolerationSeconds = nil
 			if reflect.DeepEqual(old, new) {
 				found = true
@@ -3103,7 +3107,7 @@ func validateOnlyAddedTolerations(newTolerations []core.Toleration, oldToleratio
 		}
 	}
 
-	allErrs = append(allErrs, ValidateTolerations(newTolerations, fldPath)...)
+	allErrs = append(allErrs, ValidateTolerations(mergedNewTolerations, fldPath)...)
 	return allErrs
 }
 

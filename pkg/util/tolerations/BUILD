@@ -15,8 +15,7 @@ go_library(
     importpath = "k8s.io/kubernetes/pkg/util/tolerations",
     deps = [
         "//pkg/apis/core:go_default_library",
-        "//staging/src/k8s.io/apimachinery/pkg/api/equality:go_default_library",
-        "//vendor/k8s.io/klog/v2:go_default_library",
+        "//pkg/util/tolerations/merge:go_default_library",
     ],
 )
 
@@ -29,7 +28,10 @@ filegroup(
 
 filegroup(
     name = "all-srcs",
-    srcs = [":package-srcs"],
+    srcs = [
+        ":package-srcs",
+        "//pkg/util/tolerations/merge:all-srcs",
+    ],
     tags = ["automanaged"],
 )
 
@@ -40,6 +42,7 @@ go_test(
     deps = [
         "//pkg/apis/core:go_default_library",
         "//pkg/apis/core/validation:go_default_library",
+        "//pkg/util/tolerations/merge:go_default_library",
         "//staging/src/k8s.io/apimachinery/pkg/util/validation/field:go_default_library",
         "//vendor/github.com/stretchr/testify/assert:go_default_library",
         "//vendor/github.com/stretchr/testify/require:go_default_library",

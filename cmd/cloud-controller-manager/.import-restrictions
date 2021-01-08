@@ -35,3 +35,4 @@ rules:
       - k8s.io/kubernetes/pkg/util/node
       - k8s.io/kubernetes/pkg/util/parsers
       - k8s.io/kubernetes/pkg/util/taints
+      - k8s.io/kubernetes/pkg/util/tolerations

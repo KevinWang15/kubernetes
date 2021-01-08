@@ -39,6 +39,7 @@ go_library(
         "//pkg/apis/core/helper/qos:go_default_library",
         "//pkg/apis/core/v1:go_default_library",
         "//pkg/util/tolerations:go_default_library",
+        "//pkg/util/tolerations/merge:go_default_library",
         "//plugin/pkg/admission/podtolerationrestriction/apis/podtolerationrestriction:go_default_library",
         "//plugin/pkg/admission/podtolerationrestriction/apis/podtolerationrestriction/install:go_default_library",
         "//plugin/pkg/admission/podtolerationrestriction/apis/podtolerationrestriction/v1alpha1:go_default_library",
